@@ -25,32 +25,40 @@ public class SpellCheck {
 
         String[] falseWords = new String[text.length];
         int placeInArray = 0;
+
         for (String word: text){
+            boolean found = false;
             int lengthOfLargestWord = 0;
-            for (String word2: text){
-                if (word2.length()> lengthOfLargestWord){
-                    lengthOfLargestWord = word2.length();
-                }
-            }
-            // Edge case: If the word is larger than the largest word in the dictionary
-            if (word.length() > lengthOfLargestWord) {
-                falseWords[placeInArray] = word;
-                placeInArray++;
-            }
+
             for (String dict: dictionary) {
                 if (word.equals(dict)){
+                    found = true;
                     break;
+
                 }
-                else {
+            }
+
+            if (!found){
+                boolean alreadyInArray = false;
+                for (int i = 0; i< placeInArray; i++){
+                    if (falseWords[i].equals(word)){
+                        alreadyInArray = true;
+                        break;
+                    }
+                }
+                if (!alreadyInArray) {
                     falseWords[placeInArray] = word;
                     placeInArray++;
                 }
             }
 
-
+        }
+        String[] result = new String[placeInArray];
+        for (int i = 0; i < placeInArray; i++) {
+            result[i] = falseWords[i];
         }
 
-        return falseWords;
+        return result;
 
         // How to do binary search?
         // For each of the words in the text, check the dictionary for if that string matches a string within the dictionary
