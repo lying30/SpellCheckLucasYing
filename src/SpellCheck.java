@@ -19,8 +19,6 @@ public class SpellCheck {
      */
     public String[] checkWords(String[] text, String[] dictionary) {
 
-
-
         // Go through all the text one by one using binary search
 
         String[] falseWords = new String[text.length];
@@ -28,14 +26,23 @@ public class SpellCheck {
 
         for (String word: text){
             boolean found = false;
-            int lengthOfLargestWord = 0;
-
-            for (String dict: dictionary) {
-                if (word.equals(dict)){
-                    found = true;
-                    break;
+            char firstLetter = word.charAt(0);
+            int ascii = (int) firstLetter;
+            int target = dictionary.length/2;
+            while (!word.equals(dictionary[target])) {
+                char firstLetterDict = dictionary[target].charAt(0);
+                int ascii2 = (int) firstLetterDict;
+                if (ascii>ascii2) {
 
                 }
+
+//            for (String dict: dictionary) {
+//                if (word.equals(dict)){
+//                    found = true;
+//                    break;
+//                }
+
+
             }
 
             if (!found){
@@ -54,10 +61,7 @@ public class SpellCheck {
 
         }
         String[] result = new String[placeInArray];
-        for (int i = 0; i < placeInArray; i++) {
-            result[i] = falseWords[i];
-        }
-
+        System.arraycopy(falseWords, 0, result, 0, placeInArray);
         return result;
 
         // How to do binary search?
