@@ -19,32 +19,32 @@ public class SpellCheck {
      */
     public String[] checkWords(String[] text, String[] dictionary) {
 
-        // Go through all the text one by one using binary search
-
         String[] falseWords = new String[text.length];
         int placeInArray = 0;
-
+        // binary search implementation
         for (String word: text){
+            int low = 0;
+            int high = dictionary.length-1;
             boolean found = false;
-            char firstLetter = word.charAt(0);
-            int ascii = (int) firstLetter;
-            int target = dictionary.length/2;
-            while (!word.equals(dictionary[target])) {
-                char firstLetterDict = dictionary[target].charAt(0);
-                int ascii2 = (int) firstLetterDict;
-                if (ascii>ascii2) {
-
+            while (low<=high) {
+                int mid = (low + high) / 2;
+                int compare = word.compareTo(dictionary[mid]);
+                // returns 0 if it is the same
+                if (compare == 0) {
+                    found = true;
+                    break;
+                }
+                // returns negative number if the word is to the left of the middle word in the dictionary
+                else if (compare < 0) {
+                    high = mid - 1;
+                }
+                // returns positive number if the word is to the right of the middle word in the dictionary
+                else {
+                    low = mid + 1;
                 }
 
-//            for (String dict: dictionary) {
-//                if (word.equals(dict)){
-//                    found = true;
-//                    break;
-//                }
-
-
             }
-
+            // check for duplicates
             if (!found){
                 boolean alreadyInArray = false;
                 for (int i = 0; i< placeInArray; i++){
@@ -63,11 +63,5 @@ public class SpellCheck {
         String[] result = new String[placeInArray];
         System.arraycopy(falseWords, 0, result, 0, placeInArray);
         return result;
-
-        // How to do binary search?
-        // For each of the words in the text, check the dictionary for if that string matches a string within the dictionary
-        // If the word is found within the dictionary, continue with the next word in the text
-        // If the word is not in the dictionary, add it to the array of falseWords that holds the array we will return at the end of our code
-        // After we have gone through each word in our text, return falseWords and end the code
     }
 }
