@@ -1,3 +1,5 @@
+import static java.lang.StringUTF16.charAt;
+
 /**
  * Spell Check
  * A puzzle written by Zach Blick
@@ -12,7 +14,7 @@ class TrieNode {
     boolean isEndOfWord = false;
 }
 
-class Trie{
+public class Trie{
     //class
     private TrieNode root;
 
@@ -24,21 +26,49 @@ class Trie{
         //write method
 
         //start at the root
+        TrieNode currentNode = root;
         // Start from loop and loop through each character of the word
-        // calculate index for each character and check if the corresponding child node exists
-        // if not then create a new node
-        // move to the child node and mark the end of the word
+        for (String letter : word) {
+            // calculate index for each character and check if the corresponding child node exists
+            char character = (char) letter.indexOf(0);
+            int index = (int) character - 'a';
+            if (currentNode.children[index] != null) {
+
+            }
+            // if not then create a new node
+            // move to the child node and mark the end of the word
+        }
+
     }
     public boolean search (String word) {
         //write method
 
         //start at the root
+        TrieNode currentNode = root;
         // Start from loop and loop through each character of the word
-        // calculate index for each character
+        for (String letter : word) {
+            char character = (char) letter.indexOf(0);
+            // Calculate index for each character
+            int index = (int) character - 'a';
+            if (currentNode.children[index] != null) {
+                currentNode = currentNode.children[index];
+                if (currentNode.isEndOfWord) {
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+        }
         // check if child node exists then if not word = not found
         // move to the child node and return true if it reaches the end of a valid word
         return false;
     }
+
+    public class TST {
+
+    }
+
 
 }
 public class SpellCheck {
