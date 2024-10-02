@@ -6,7 +6,41 @@
  *
  * Completed by: [Lucas Ying]
  * */
+class TrieNode {
+    //26 letters plus apostrohpe
+    TrieNode[] children = new TrieNode[27];
+    boolean isEndOfWord = false;
+}
 
+class Trie{
+    //class
+    private TrieNode root;
+
+    public Trie() {
+        root = new TrieNode();
+    }
+
+    public void insert (String word){
+        //write method
+
+        //start at the root
+        // Start from loop and loop through each character of the word
+        // calculate index for each character and check if the corresponding child node exists
+        // if not then create a new node
+        // move to the child node and mark the end of the word
+    }
+    public boolean search (String word) {
+        //write method
+
+        //start at the root
+        // Start from loop and loop through each character of the word
+        // calculate index for each character
+        // check if child node exists then if not word = not found
+        // move to the child node and return true if it reaches the end of a valid word
+        return false;
+    }
+
+}
 public class SpellCheck {
 
 
@@ -19,46 +53,29 @@ public class SpellCheck {
      */
     public String[] checkWords(String[] text, String[] dictionary) {
 
+        Trie trie = new Trie();
         String[] falseWords = new String[text.length];
         int placeInArray = 0;
-        // binary search implementation
-        for (String word: text){
-            int low = 0;
-            int high = dictionary.length-1;
-            boolean found = false;
-            while (low<=high) {
-                int mid = (low + high) / 2;
-                int compare = word.compareTo(dictionary[mid]);
-                // returns 0 if it is the same
-                if (compare == 0) {
-                    found = true;
-                    break;
-                }
-                // returns negative number if the word is to the left of the middle word in the dictionary
-                else if (compare < 0) {
-                    high = mid - 1;
-                }
-                // returns positive number if the word is to the right of the middle word in the dictionary
-                else {
-                    low = mid + 1;
-                }
 
-            }
-            // check for duplicates
-            if (!found){
+        for (String word: dictionary) {
+            trie.insert(word);
+        }
+        // Check each word in the text
+        for (String word : text) {
+            if (!trie.search(word)) {
+                // Check for duplicates before adding
                 boolean alreadyInArray = false;
-                for (int i = 0; i< placeInArray; i++){
-                    if (falseWords[i].equals(word)){
+                for (int i = 0; i < placeInArray; i++) {
+                    if (falseWords[i].equals(word)) {
                         alreadyInArray = true;
                         break;
                     }
                 }
-                if (!alreadyInArray) {
+                if (!alreadyInArray){
                     falseWords[placeInArray] = word;
                     placeInArray++;
                 }
             }
-
         }
         String[] result = new String[placeInArray];
         System.arraycopy(falseWords, 0, result, 0, placeInArray);
