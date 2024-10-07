@@ -1,4 +1,3 @@
-import static java.lang.StringUTF16.charAt;
 
 /**
  * Spell Check
@@ -14,7 +13,7 @@ class TrieNode {
     boolean isEndOfWord = false;
 }
 
-public class Trie{
+class Trie {
     //class
     private TrieNode root;
 
@@ -23,52 +22,56 @@ public class Trie{
     }
 
     public void insert (String word){
-        //write method
-
         //start at the root
         TrieNode currentNode = root;
         // Start from loop and loop through each character of the word
-        for (String letter : word) {
-            // calculate index for each character and check if the corresponding child node exists
-            char character = (char) letter.indexOf(0);
-            int index = (int) character - 'a';
-            if (currentNode.children[index] != null) {
-
+        for (char c : word.toCharArray()) {
+            // Calculate index for each character
+            int index;
+            if (c == '\'') {
+                index = 26;
             }
-            // if not then create a new node
-            // move to the child node and mark the end of the word
+            else if (c>= 'a' && c<='z') {
+                index = (int) c - 'a';
+            }
+            else {
+                continue;
+            }
+            // If child node exists then if not word = not found
+            if (currentNode.children[index] == null) {
+                currentNode.children[index] = new TrieNode();
+            }
+            // move to the child node and return true if it reaches the end of a valid word
+            currentNode = currentNode.children[index];
         }
+        currentNode.isEndOfWord = true;
 
     }
     public boolean search (String word) {
-        //write method
-
         //start at the root
         TrieNode currentNode = root;
         // Start from loop and loop through each character of the word
-        for (String letter : word) {
-            char character = (char) letter.indexOf(0);
+        for (char c : word.toCharArray()) {
             // Calculate index for each character
-            int index = (int) character - 'a';
-            if (currentNode.children[index] != null) {
-                currentNode = currentNode.children[index];
-                if (currentNode.isEndOfWord) {
-                    return true;
-                }
+            int index;
+            if (c == '\'') {
+                index = 26;
+            }
+            else if (c>= 'a' && c<='z') {
+                index = (int) c - 'a';
             }
             else {
+                continue;
+            }
+            // If child node exists then if not word = not found
+            if (currentNode.children[index] == null) {
                 return false;
             }
+            // move to the child node and return true if it reaches the end of a valid word
+            currentNode = currentNode.children[index];
         }
-        // check if child node exists then if not word = not found
-        // move to the child node and return true if it reaches the end of a valid word
-        return false;
+        return currentNode.isEndOfWord;
     }
-
-    public class TST {
-
-    }
-
 
 }
 public class SpellCheck {
@@ -88,27 +91,41 @@ public class SpellCheck {
         int placeInArray = 0;
 
         for (String word: dictionary) {
-            trie.insert(word);
+            trie.insert(word.toLowerCase());
         }
         // Check each word in the text
         for (String word : text) {
-            if (!trie.search(word)) {
+            // Clean the word: lowercase and remove non-alphabetic characters except apostrophes
+            String cleanedWord = word.toLowerCase().replaceAll("[^a-z']", "");
+
+            if (!trie.search(cleanedWord) && !cleanedWord.isEmpty()) {
                 // Check for duplicates before adding
                 boolean alreadyInArray = false;
                 for (int i = 0; i < placeInArray; i++) {
-                    if (falseWords[i].equals(word)) {
+                    if (falseWords[i].equals(cleanedWord)) {
                         alreadyInArray = true;
                         break;
                     }
                 }
                 if (!alreadyInArray){
-                    falseWords[placeInArray] = word;
+                    falseWords[placeInArray] = cleanedWord;
                     placeInArray++;
                 }
             }
         }
         String[] result = new String[placeInArray];
+        // Copy over the found misspelled words
         System.arraycopy(falseWords, 0, result, 0, placeInArray);
         return result;
     }
+}
+
+
+class TSTNode {
+    char value;
+
+}
+
+class TST {
+
 }
