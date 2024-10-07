@@ -5,14 +5,13 @@ import java.util.ArrayList;
  * A puzzle written by Zach Blick
  * for Adventures in Algorithms
  * At Menlo School in Atherton, CA
- *
  * Completed by: [Lucas Ying]
  * */
 
-
+/*
 class TrieNode {
     // Array of child nodes, one for each letter of the alphabet plus an apostrophe
-    TrieNode[] children = new TrieNode[27];
+    TrieNode[] children = new TrieNode[255];
     // Indicates if this node marks the end of a valid word
     boolean isEndOfWord = false;
 }
@@ -30,20 +29,8 @@ class Trie {
         TrieNode currentNode = root;
         // Loop through each character of the word
         for (char c : word.toCharArray()) {
-            // Calculate index for each character in the trie
-            int index;
-            if (c == '\'') {
-                // Apostrophe index
-                index = 26;
-            }
-            else if (c>= 'a' && c<='z') {
-                // Calculate index for lowercase letters
-                index = (int) c - 'a';
-            }
-            else {
-                // Skip non-alphabetic characters
-                continue;
-            }
+            // Get ASCII value of the character
+            int index = (int) c;
 
             // If child node does not exist, create it
             if (currentNode.children[index] == null) {
@@ -54,27 +41,15 @@ class Trie {
             currentNode = currentNode.children[index];
         }
         currentNode.isEndOfWord = true;
-
     }
     public boolean search (String word) {
         // Start at the root node
         TrieNode currentNode = root;
         // Loop through each character of the word
         for (char c : word.toCharArray()) {
-            // Calculate index for each character in the trie
-            int index;
-            if (c == '\'') {
-                // Apostrophe index
-                index = 26;
-            }
-            else if (c>= 'a' && c<='z') {
-                // Calculate index for lowercase letters
-                index = (int) c - 'a';
-            }
-            else {
-                // Skip non-alphabetic characters
-                continue;
-            }
+            // Get ASCII value of the character
+            int index = (int) c;
+
             // If child node does not exist, the word is not found
             if (currentNode.children[index] == null) {
                 return false;
@@ -84,14 +59,13 @@ class Trie {
         }
         return currentNode.isEndOfWord;
     }
-
 }
 public class SpellCheck {
 
 //     checkWords finds all words in text that are not present in dictionary
 //     @param text The list of all words in the text.
 //     @param dictionary The list of all accepted words.
-//     @return String[] of all mispelled words in the order they appear in text. No duplicates.
+//     @return String[] of all misspelled words in the order they appear in text. No duplicates.
 
     public String[] checkWords(String[] text, String[] dictionary) {
 
@@ -125,8 +99,8 @@ public class SpellCheck {
         return falseWordsList.toArray(new String[0]);
     }
 }
+*/
 
-/*
 class TSTNode {
     // Value of node
     char value;
@@ -262,4 +236,3 @@ public class SpellCheck {
         return falseWordsList.toArray(new String[0]);
     }
 }
-*/
